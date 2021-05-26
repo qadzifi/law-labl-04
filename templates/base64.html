@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block scriptblock %}
+<script src="{{ url_for('static', filename='base64/form.js') }}"></script>
+{% endblock scriptblock %}
+{% block styleblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='base64/style.css') }}">
+{% endblock styleblock %}
+{% block content %}
+<div class="center-self">
+    <div id="form-block">
+        <div>
+            {{ input_form.input_string(id="text-area-field") }}
+        </div>
+        <div>
+            <button id="encode">Encode</button>
+            &nbsp;
+            <button id="decode">Decode</button>
+        </div>
+    </div>
+    <div id="form-result">
+    </div>
+</div>
+{% endblock content %}

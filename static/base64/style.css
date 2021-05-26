@@ -1,0 +1,23 @@
+#form-block {
+    display: inline-grid;
+    justify-content: center;
+}
+
+#form-block>* {
+    margin-bottom: 10px;
+    justify-self: center;
+}
+
+#form-result {
+    text-align: center;
+}
+
+#text-area-field {
+    width: 400px;
+    height: 200px;
+}
+
+.center-self {
+    display: inline-grid;
+    justify-self: center;
+}
