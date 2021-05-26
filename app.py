@@ -4,7 +4,7 @@ from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from forms import Base64InputForm
 
-UPLOAD_FOLDER = '.\\filelocation'
+UPLOAD_FOLDER = os.path.join('.', 'filelocation')
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'md'}
 
 app = Flask(__name__)
@@ -31,22 +31,23 @@ def base64_encode(string):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('upload_file',
-                                    filename=filename))
+    with open('/home/qadzifi/app.log', 'w') as log_file:
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            file = request.files['file']
+            # if user does not select file, browser also
+            # submit an empty part without filename
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return redirect(url_for('upload_file',
+                                        filename=filename))
     return render_template('uploads.html')
 
 @app.route('/base64', methods=['GET', 'POST'])
@@ -67,4 +68,7 @@ def base64_operation():
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return 'Hello, World return!'
+
+if __name__ == '__main__':
+    app.run(debug=True,host='0.0.0.0')
